@@ -6,11 +6,11 @@ class InfoMessage:
                  distance: float,
                  speed: float,
                  calories: float) -> None:
-         self.training_type = training_type
-         self.duration = duration
-         self.distance = distance
-         self.speed = speed
-         self.calories = calories 
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
 
     def get_message(self) -> str:
         return (f'Тип тренировки: {self.training_type}; '
@@ -19,11 +19,12 @@ class InfoMessage:
                 f'Ср. скорость: {self.speed:.3f} км/ч; '
                 f'Потрачено ккал: {self.calories:.3f}.')
 
+
 class Training:
     """Базовый класс тренировки."""
     M_IN_KM = 1000
     LEN_STEP = 0.65
-    MIN_IN_HOUR = 60
+    MIN_HOUR = 60
 
     def __init__(self,
                  action: int,
@@ -63,8 +64,10 @@ class Running(Training):
                  duration: float,
                  weight: float) -> None:
         super().__init__(action, duration, weight)
+
     def get_spent_calories(self) -> float:
-        return ((18 * self.get_mean_speed() - 20) * self.weight / self.M_IN_KM * self.duration*self.MIN_IN_HOUR)
+        return ((18 * self.get_mean_speed() - 20)
+                * self.weight / self.M_IN_KM * self.duration * self.MIN_HOUR)
 
 
 class SportsWalking(Training):
@@ -75,10 +78,11 @@ class SportsWalking(Training):
                  height: float) -> None:
         super().__init__(action, duration, weight)
         self.height = height
+
     def get_spent_calories(self) -> float:
         return ((0.035 * self.weight
                 + (self.get_mean_speed() ** 2 // self.height)
-                * 0.029 * self.weight) * self.duration * self.MIN_IN_HOUR)
+                * 0.029 * self.weight) * self.duration * self.MIN_HOUR)
 
 
 class Swimming(Training):
@@ -133,4 +137,3 @@ if __name__ == '__main__':
     for workout_type, data in packages:
         training = read_package(workout_type, data)
         main(training)
-
