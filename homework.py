@@ -1,3 +1,6 @@
+from typing import List, Union
+
+
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     def __init__(self,
@@ -110,7 +113,7 @@ class Swimming(Training):
                 * self.FOURTH_NUM * self.weight)
 
 
-def read_package(workout_type: str, data: list = float) -> Training:
+def read_package(workout_type: str, data: List[Union[int, float]]) -> Training:
     """Здесь не совсем поняла про полную аннотацию аргумента."""
 
     action_type = {
