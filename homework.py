@@ -28,7 +28,6 @@ class Training:
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
     MIN_H: int = 60
-    FOURTH_NUM: int = 2
 
     def __init__(self,
                  action: int,
@@ -63,17 +62,18 @@ class Training:
 class Running(Training):
     """Я честно гуглила эту формулу и нет там расшифровки этих просто чисел.
        Поэтому названия такие."""
-    FIRST_NUM: int = 18
-    SECOND_NUM: int = 20
+    RATIO_CAL_1: int = 18
+    RATIO_CAL_2: int = 20
 
     def get_spent_calories(self) -> float:
-        return ((self.FIRST_NUM * self.get_mean_speed() - self.SECOND_NUM)
+        return ((self.RATIO_CAL_1 * self.get_mean_speed() - self.RATIO_CAL_2)
                 * self.weight / self.M_IN_KM * self.duration * self.MIN_H)
 
 
 class SportsWalking(Training):
-    TRITD_NUM: float = 0.035
-    FIFTH_NUM: float = 0.029
+    RATIO_CAL_3: float = 0.035
+    RATIO_CAL_4: float = 0.029
+    RATIO_SPEED: int = 2
 
     def __init__(self,
                  action: int,
@@ -84,15 +84,16 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        return ((self.TRITD_NUM * self.weight
-                + (self.get_mean_speed() ** self.FOURTH_NUM // self.height)
-                * self.FIFTH_NUM * self.weight) * self.duration * self.MIN_H)
+        return ((self.RATIO_CAL_3 * self.weight
+                + (self.get_mean_speed() ** self.RATIO_SPEED // self.height)
+                * self.RATIO_CAL_4 * self.weight) * self.duration * self.MIN_H)
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
     LEN_STEP: float = 1.38
-    SIXTH_NUM: float = 1.1
+    RATIO_CAL_5: float = 1.1
+    RATIO_W: int = 2
 
     def __init__(self,
                  action: int,
@@ -109,8 +110,8 @@ class Swimming(Training):
                 / self.M_IN_KM / self.duration)
 
     def get_spent_calories(self) -> float:
-        return ((self.get_mean_speed() + self.SIXTH_NUM)
-                * self.FOURTH_NUM * self.weight)
+        return ((self.get_mean_speed() + self.RATIO_CAL_5)
+                * self.RATIO_W * self.weight)
 
 
 def read_package(workout_type: str, data: List[Union[int, float]]) -> Training:
@@ -123,7 +124,7 @@ def read_package(workout_type: str, data: List[Union[int, float]]) -> Training:
     if workout_type in action_type:
         return action_type[workout_type](*data)
     else:
-        raise KeyError('Error 404')
+        raise ValueError('Error 404')
 
 
 def main(training: Training) -> None:
