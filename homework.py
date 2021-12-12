@@ -62,17 +62,17 @@ class Training:
 class Running(Training):
     """Я честно гуглила эту формулу и нет там расшифровки этих просто чисел.
        Поэтому названия такие."""
-    RATIO_CAL_1: int = 18
-    RATIO_CAL_2: int = 20
+    COEFF_CAL_1: int = 18
+    COEFF_CAL_2: int = 20
 
     def get_spent_calories(self) -> float:
-        return ((self.RATIO_CAL_1 * self.get_mean_speed() - self.RATIO_CAL_2)
+        return ((self.COEFF_CAL_1 * self.get_mean_speed() - self.COEFF_CAL_2)
                 * self.weight / self.M_IN_KM * self.duration * self.MIN_H)
 
 
 class SportsWalking(Training):
-    RATIO_CAL_3: float = 0.035
-    RATIO_CAL_4: float = 0.029
+    COEFF_W_1: float = 0.035
+    COEFF_W_2: float = 0.029
     RATIO_SPEED: int = 2
 
     def __init__(self,
@@ -84,15 +84,15 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        return ((self.RATIO_CAL_3 * self.weight
+        return ((self.COEFF_W_1 * self.weight
                 + (self.get_mean_speed() ** self.RATIO_SPEED // self.height)
-                * self.RATIO_CAL_4 * self.weight) * self.duration * self.MIN_H)
+                * self.COEFF_W_2 * self.weight) * self.duration * self.MIN_H)
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
     LEN_STEP: float = 1.38
-    RATIO_CAL_5: float = 1.1
+    COEFF_SPEED: float = 1.1
     RATIO_W: int = 2
 
     def __init__(self,
@@ -110,7 +110,7 @@ class Swimming(Training):
                 / self.M_IN_KM / self.duration)
 
     def get_spent_calories(self) -> float:
-        return ((self.get_mean_speed() + self.RATIO_CAL_5)
+        return ((self.get_mean_speed() + self.COEFF_SPEED)
                 * self.RATIO_W * self.weight)
 
 
