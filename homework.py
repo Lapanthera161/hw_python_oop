@@ -60,8 +60,8 @@ class Training:
 
 
 class Running(Training):
-    """Я честно гуглила эту формулу и нет там расшифровки этих просто чисел.
-       Поэтому названия такие."""
+    """Тренировка: бег."""
+
     COEFF_CAL_1: int = 18
     COEFF_CAL_2: int = 20
 
@@ -115,7 +115,7 @@ class Swimming(Training):
 
 
 def read_package(workout_type: str, data: List[Union[int, float]]) -> Training:
-    """Здесь не совсем поняла про полную аннотацию аргумента."""
+    """Чтение датчиков."""
 
     action_type = {
         'RUN': Running,
@@ -123,7 +123,7 @@ def read_package(workout_type: str, data: List[Union[int, float]]) -> Training:
         'SWM': Swimming}
     if workout_type in action_type:
         return action_type[workout_type](*data)
-    else:
+    if workout_type not in action_type:
         raise ValueError('Error 404')
 
 
